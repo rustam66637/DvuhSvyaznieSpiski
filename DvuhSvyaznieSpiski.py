@@ -108,5 +108,5 @@ class LinkedList2:
             self.tail = newNode
         else:
             self.head.prev = newNode
-            item.next = self.head
+            newNode.next = self.head
         self.head = newNode
