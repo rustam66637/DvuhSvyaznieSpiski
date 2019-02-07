@@ -1,8 +1,8 @@
 class Node:
-    def __init__(self, v):
+    def __init__(self, v, p = None, n = None):
         self.value = v
-        self.prev = None
-        self.next = None
+        self.prev = p
+        self.next = n
 
 class LinkedList2:
     def __init__(self):
@@ -37,26 +37,21 @@ class LinkedList2:
         return s
 
     def delete(self, val, all=False): #метод удаления одного\нескольких узла\ов по значению
-            node = self.head
-            old = self.head
-            nxt = self.head
+            node = old = nxt = self.head
             while node is not None:
                 if node.value == val:
                     if node == self.head and node == self.tail and node.value == val: #если в списке один узел
                         self.head = self.tail = None
                         node = old = nxt = None
                         break
-                    if node == self.head: #если узел первый
-                        node = node.next
-                        old = node
-                        nxt = node
-                        self.head = node
+                    elif node == self.head: #если узел первый
+                        self.head = node.next
+                        self.head.prev = None
+                        old = node = nxt = node.next
+                    elif node == self.tail: #узел последний
+                        self.tail = node.prev
+                        self.tail.next = None
                         node.prev = None
-                        continue
-                    if node == self.tail: # если узел последний
-                        old.next = None
-                        self.tail = old
-                        return
                     else:
                         old.next = nxt
                         nxt.prev = old
@@ -64,10 +59,8 @@ class LinkedList2:
                         return
                 old = node
                 node = nxt
-                if nxt.next != None:
+                if nxt != None:
                     nxt = nxt.next
-                else:
-                    return
 
     def clean(self): #метод очистки всего содержимого
         self.__init__()
@@ -101,7 +94,7 @@ class LinkedList2:
                 else: node = node.next
             if type(newNode) == int and type(afterNode) == int:
                 if node.value == afterNode:
-                    node.next = Node(newNode, node.next)
+                    node.next = Node(newNode, node, node.next)
                     if node.next.next == None:
                         self.tail = node.next
                     break
