@@ -82,19 +82,22 @@ class LinkedList2:
             return
         node = self.head
         while True:
+            if afterNode == None: #добавление в начало
+                LinkedList2.add_in_head(self, newNode)
+                return
             if type(newNode) == Node:
                 LinkedList2.add_in_tail(self, newNode)
                 return
-            if type(newNode) == int and type(afterNode) == Node:
+            if type(newNode) == int and type(afterNode) == Node:#(int, Node)
                 if node.value == afterNode.value:
-                    node.next = Node(newNode, node, node.next)
+                    node.next = Node(newNode, )
                     if node.next.next == None:
                         self.tail = node.next
                     break
                 else: node = node.next
-            if type(newNode) == int and type(afterNode) == int:
+            if type(newNode) == int and type(afterNode) == int:#(int, int)
                 if node.value == afterNode:
-                    node.next = Node(newNode, node, node.next)
+                    node.next = Node(newNode, node.next)
                     if node.next.next == None:
                         self.tail = node.next
                     break
